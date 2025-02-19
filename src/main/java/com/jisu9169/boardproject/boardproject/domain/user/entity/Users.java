@@ -22,7 +22,7 @@ public class Users extends Timestamped {
 	private Long userId;
 
 	@Column(nullable = false, unique = true)
-	private String userName;
+	private String username;
 
 	@Column(nullable = false)
 	private String password;

@@ -11,4 +11,6 @@ import com.jisu9169.boardproject.boardproject.domain.user.entity.Users;
 public interface UserRepository extends JpaRepository<Users, Long> {
 
 	Optional<Users> findByUsername(String username);
+
+	boolean existsByUsername(String username);
 }

@@ -10,11 +10,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.jisu9169.boardproject.boardproject.domain.user.dto.UserSignupRequestDto;
 import com.jisu9169.boardproject.boardproject.domain.user.entity.Users;
 import com.jisu9169.boardproject.boardproject.global.exception.CustomException;
+import com.jisu9169.boardproject.boardproject.global.exception.StatusCode;
+import com.jisu9169.boardproject.boardproject.global.security.UserDetailsImpl;
+import com.jisu9169.boardproject.boardproject.global.util.JwtUtil;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -25,6 +31,12 @@ class UserServiceTest {
 	private UserRepository userRepository;
 	@Mock
 	private PasswordEncoder passwordEncoder;
+
+	@Mock
+	private JwtUtil jwtUtil;
+
+	@Mock
+	private HttpServletRequest request;
 
 	@Test
 	@DisplayName("회원가입 성공")
@@ -61,4 +73,41 @@ class UserServiceTest {
 		// then
 		assertThrows(CustomException.class, () -> userService.signup(requestDto));
 	}
+
+	@Test
+	@DisplayName("로그아웃 성공")
+	void logout_success() {
+		// given
+		String token = "validToken";
+		when(jwtUtil.getJwtFromHeader(request)).thenReturn(token);
+		when(jwtUtil.validateToken(token)).thenReturn(true);
+
+		UserDetailsImpl userDetails = mock(UserDetailsImpl.class);
+
+		// when
+		userService.logout(userDetails);
+
+		// then
+		assertNull(SecurityContextHolder.getContext().getAuthentication(), "로그아웃 후 SecurityContext가 비어 있어야 한다.");
+	}
+
+	@Test
+	@DisplayName("유효하지 않은 토큰으로 로그아웃 실패")
+	void logout_invalid_token() {
+		// given
+		String token = "invalidToken";
+		when(jwtUtil.getJwtFromHeader(request)).thenReturn(token);
+		when(jwtUtil.validateToken(token)).thenReturn(false);
+
+		UserDetailsImpl userDetails = mock(UserDetailsImpl.class);
+
+		// when & then
+		CustomException exception = assertThrows(CustomException.class, () -> {
+			userService.logout(userDetails);
+		});
+
+		assertEquals(StatusCode.INVALID_TOKEN, exception.getStatusCode());
+	}
+
+
 }

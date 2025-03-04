@@ -2,6 +2,7 @@ package com.jisu9169.boardproject.boardproject.domain.post;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,7 +33,8 @@ public class PostController {
 	private final PostService postService;
 
 	@PostMapping("/posts")
-	public ResponseEntity<MessageResponseDto> createPost(@Valid @RequestBody CreatePostRequestDto requestDto, UserDetailsImpl userDetails) {
+	public ResponseEntity<MessageResponseDto> createPost(@Valid @RequestBody CreatePostRequestDto requestDto,
+		@AuthenticationPrincipal UserDetailsImpl userDetails) {
 		postService.createPost(requestDto, userDetails);
 		return ResponseFactory.created(StatusCode.SUCCESS_CREATE_POST);
 	}
@@ -54,13 +56,15 @@ public class PostController {
 
 	@PatchMapping("/posts/{postId}")
 	public ResponseEntity<MessageResponseDto> updatePost(
-		@PathVariable Long postId , @RequestBody UpdatePostRequestDto requestDto, UserDetailsImpl userDetails) {
+		@PathVariable Long postId , @RequestBody UpdatePostRequestDto requestDto,
+		@AuthenticationPrincipal UserDetailsImpl userDetails) {
 		postService.updatePost(postId, requestDto, userDetails);
 		return ResponseFactory.ok(StatusCode.SUCCESS_UPDATE_POST);
 	}
 
 	@DeleteMapping("/posts/{postId}")
-	public ResponseEntity<MessageResponseDto> deletePost(@PathVariable Long postId, UserDetailsImpl userDetails) {
+	public ResponseEntity<MessageResponseDto> deletePost(@PathVariable Long postId,
+		@AuthenticationPrincipal UserDetailsImpl userDetails) {
 		postService.deletePost(postId, userDetails);
 		return ResponseFactory.ok(StatusCode.SUCCESS_DELETE_POST);
 	}

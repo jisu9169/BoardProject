@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jisu9169.boardproject.boardproject.domain.user.dto.UserSignupRequestDto;
@@ -14,7 +15,8 @@ import com.jisu9169.boardproject.boardproject.global.security.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
 
-@RestController("/api")
+@RestController
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -31,7 +33,7 @@ public class UserController {
 	public ResponseEntity<MessageResponseDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails) {
 		userService.logout(userDetails);
 
-		return ResponseFactory.ok(StatusCode.SUCESS_LOGOUT);
+		return ResponseFactory.ok(StatusCode.SUCCESS_LOGOUT);
 
 	}
 }

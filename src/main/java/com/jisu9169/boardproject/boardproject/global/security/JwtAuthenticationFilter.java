@@ -25,6 +25,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	public JwtAuthenticationFilter(JwtUtil jwtUtil, AuthenticationManager authenticationManager) {
 		this.jwtUtil = jwtUtil;
 		setAuthenticationManager(authenticationManager);
+		setFilterProcessesUrl("/api/users/login");
 	}
 
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {

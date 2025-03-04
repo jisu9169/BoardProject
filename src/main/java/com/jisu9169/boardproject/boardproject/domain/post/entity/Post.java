@@ -67,4 +67,13 @@ public class Post extends Timestamped {
 			.postStatus(PostStatusEnum.ACTIVE)
 			.build();
 	}
+
+	public void updateTitle(String title) {
+		this.title = title;
+	}
+
+	public void updateContent(String content) {
+		this.body = content;
+	}
+
 }

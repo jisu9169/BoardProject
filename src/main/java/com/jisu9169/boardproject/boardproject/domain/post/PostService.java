@@ -46,10 +46,7 @@ public class PostService {
 	@Transactional
 	public void updatePost(Long postId, UpdatePostRequestDto requestDto, UserDetailsImpl userDetails) {
 		Post post = findPostById(postId);
-
-		if(!Objects.equals(post.getUsers().getUserId(), userDetails.getUser().getUserId())) {
-			throw new CustomException(StatusCode.POST_EDIT_FORBIDDEN);
-		}
+		validatePostOwner(post, userDetails.getUser());
 
 		if(requestDto.getTitle() != null) {
 			post.updateTitle(requestDto.getTitle());
@@ -62,13 +59,25 @@ public class PostService {
 		postRepository.save(post);
 	}
 
+	@Transactional
+	public void deletePost(Long postId, UserDetailsImpl userDetails) {
+		Post post = findPostById(postId);
+		validatePostOwner(post, userDetails.getUser());
+		postRepository.delete(post);
+	}
+
 	public PostResponseDto getPostById(Long postId) {
 		Post post = findPostById(postId);
 		return PostResponseDto.from(post);
 	}
 
-
 	public Post findPostById(Long postId){
 		return postRepository.findById(postId).orElseThrow(() -> new CustomException(StatusCode.POST_NOT_FOUND));
+	}
+
+	private void validatePostOwner(Post post, Users user) {
+		if (!Objects.equals(post.getUsers().getUserId(), user.getUserId())) {
+			throw new CustomException(StatusCode.POST_EDIT_FORBIDDEN);
+		}
 	}
 }

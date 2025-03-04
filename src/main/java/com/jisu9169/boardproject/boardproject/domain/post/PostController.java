@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,5 +59,11 @@ public class PostController {
 		@PathVariable Long postId , @RequestBody UpdatePostRequestDto requestDto, UserDetailsImpl userDetails) {
 		postService.updatePost(postId, requestDto, userDetails);
 		return ResponseFactory.ok(StatusCode.SUCCESS_UPDATE_POST);
+	}
+
+	@DeleteMapping("/posts/{postId}")
+	public ResponseEntity<MessageResponseDto> deletePost(@PathVariable Long postId, UserDetailsImpl userDetails) {
+		postService.deletePost(postId, userDetails);
+		return ResponseFactory.ok(StatusCode.SUCCESS_DELETE_POST);
 	}
 }

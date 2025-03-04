@@ -15,6 +15,7 @@ public enum StatusCode {
 	SUCCESS_CREATE_POST(HttpStatus.CREATED, "게시물 생성에 성공했습니다."),
 	SUCCESS_GET_POST(HttpStatus.OK, "게시물 조회에 성공했습니다."),
 	SUCCESS_UPDATE_POST(HttpStatus.OK, "게시물 수정에 성공했습니다."),
+	SUCCESS_DELETE_POST(HttpStatus.OK, "게시물 삭제에 성공했습니다."),
 
 
 	// 400 번대

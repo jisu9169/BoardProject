@@ -1,6 +1,9 @@
 package com.jisu9169.boardproject.boardproject.domain.user.entity;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.jisu9169.boardproject.boardproject.domain.common.Timestamped;
+import com.jisu9169.boardproject.boardproject.domain.user.dto.UserSignupRequestDto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,12 +12,14 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Users extends Timestamped {
 
 	@Id
@@ -31,5 +36,18 @@ public class Users extends Timestamped {
 	@Enumerated(value = EnumType.STRING)
 	private UserRoleEnum role;
 
+	@Builder
+	public Users(String username, String password, UserRoleEnum role) {
+		this.username = username;
+		this.password = password;
+		this.role = role;
+	}
 
+	public static Users createUser(UserSignupRequestDto requestDto, PasswordEncoder passwordEncoder) {
+		return Users.builder()
+			.username(requestDto.getUsername())
+			.password(passwordEncoder.encode(requestDto.getPassword()))
+			.role(UserRoleEnum.USER)
+			.build();
+	}
 }

@@ -40,6 +40,9 @@ public class PostService {
 		Pageable pageable = PageRequest.of(page, size, sort);
 		Page<Post> postPage = postRepository.findAll(pageable);
 
+		if (postPage.isEmpty()) {
+			throw new CustomException(StatusCode.POST_NOT_FOUND);
+		}
 		return postPage.map(PostResponseDto::from);
 	}
 

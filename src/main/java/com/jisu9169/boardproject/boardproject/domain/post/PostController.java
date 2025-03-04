@@ -1,7 +1,5 @@
 package com.jisu9169.boardproject.boardproject.domain.post;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

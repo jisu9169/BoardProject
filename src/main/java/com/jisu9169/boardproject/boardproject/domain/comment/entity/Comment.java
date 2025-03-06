@@ -1,6 +1,7 @@
 package com.jisu9169.boardproject.boardproject.domain.comment.entity;
 
 import com.jisu9169.boardproject.boardproject.domain.comment.dto.CreateCommentRequestDto;
+import com.jisu9169.boardproject.boardproject.domain.comment.dto.UpdateCommentRequestDto;
 import com.jisu9169.boardproject.boardproject.domain.common.Timestamped;
 import com.jisu9169.boardproject.boardproject.domain.post.entity.Post;
 import com.jisu9169.boardproject.boardproject.domain.user.entity.Users;
@@ -66,5 +67,14 @@ public class Comment extends Timestamped {
 			.user(user)
 			.commentStatusEnum(CommentStatusEnum.ACTIVE)
 			.build();
+	}
+
+	public void updateContent(UpdateCommentRequestDto requestDto) {
+		if (requestDto.getContent() != null) {
+			this.content = requestDto.getContent();
+		}
+		if (requestDto.getCommentStatus() != null) {
+			this.commentStatusEnum = CommentStatusEnum.fromStatus(requestDto.getCommentStatus());
+		}
 	}
 }

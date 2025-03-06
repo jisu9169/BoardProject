@@ -20,6 +20,7 @@ public enum StatusCode {
 
 	SUCCESS_CREATE_COMMENT(HttpStatus.CREATED, "댓글 생성에 성공했습니다."),
 	SUCCESS_GET_COMMENT(HttpStatus.OK, "댓글 조회에 성공했습니다."),
+	SUCCESS_UPDATE_COMMENT(HttpStatus.OK, "댓글 수정에 성공했습니다."),
 
 
 	// 400 번대
@@ -30,8 +31,9 @@ public enum StatusCode {
 	POST_EDIT_FORBIDDEN(HttpStatus.FORBIDDEN, "해당 게시글을 수정할 권한이 없습니다."),
 	POST_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 게시글입니다."),
 
-	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다.");
-
+	COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다."),
+	COMMENT_USER_MISMATCH(HttpStatus.FORBIDDEN, "댓글 작성자만 수정할 수 있습니다."),
+	INVALID_COMMENT_STATUS(HttpStatus.BAD_REQUEST, "유효하지 않은 ENUM 값입니다.");
 	private final HttpStatus statusCode;
 	private final String message;
 }

@@ -19,6 +19,7 @@ public enum StatusCode {
 	SUCCESS_DELETE_POST(HttpStatus.OK, "게시물 삭제에 성공했습니다."),
 
 	SUCCESS_CREATE_COMMENT(HttpStatus.CREATED, "댓글 생성에 성공했습니다."),
+	SUCCESS_GET_COMMENT(HttpStatus.OK, "댓글 조회에 성공했습니다."),
 
 
 	// 400 번대

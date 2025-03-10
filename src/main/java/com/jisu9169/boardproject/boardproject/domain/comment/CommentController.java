@@ -3,6 +3,7 @@ package com.jisu9169.boardproject.boardproject.domain.comment;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,8 +55,15 @@ public class CommentController {
 	@PatchMapping("/posts/{postId}/comments/{commentsId}")
 	public ResponseEntity<MessageResponseDto> updateComment(
 		@PathVariable Long postId, @PathVariable Long commentsId, @AuthenticationPrincipal UserDetailsImpl userDetails,
-		@Valid @RequestBody UpdateCommentRequestDto requestDto) {
+		@RequestBody UpdateCommentRequestDto requestDto) {
 		commentService.updateComment(postId, commentsId, userDetails, requestDto);
+		return ResponseFactory.ok(StatusCode.SUCCESS_UPDATE_COMMENT);
+	}
+
+	@DeleteMapping("/posts/{postId}/comments/{commentsId}")
+	public ResponseEntity<MessageResponseDto> deleteComment(
+		@PathVariable Long postId, @PathVariable Long commentsId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+		commentService.deleteComment(postId, commentsId, userDetails);
 		return ResponseFactory.ok(StatusCode.SUCCESS_UPDATE_COMMENT);
 	}
 }

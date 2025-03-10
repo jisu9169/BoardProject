@@ -77,4 +77,8 @@ public class Comment extends Timestamped {
 			this.commentStatusEnum = CommentStatusEnum.fromStatus(requestDto.getCommentStatus());
 		}
 	}
+
+	public void disableComment() {
+		this.commentStatusEnum = CommentStatusEnum.INACTIVE;
+	}
 }

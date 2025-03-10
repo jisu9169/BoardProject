@@ -67,6 +67,14 @@ public class CommentService {
 		commentRepository.save(comment);
 	}
 
+	@Transactional
+	public void deleteComment(Long postId, Long commentsId, UserDetailsImpl userDetails) {
+		postService.findPostById(postId);
+		Comment comment = getCommentById(commentsId);
+		validCommentUser(comment, userDetails);
+		comment.disableComment();
+	}
+
 	public Comment getCommentById(Long commentId) {
 		return commentRepository.findById(commentId).orElseThrow(
 			() -> new CustomException(StatusCode.COMMENT_NOT_FOUND)
@@ -78,5 +86,4 @@ public class CommentService {
 			throw new CustomException(StatusCode.COMMENT_USER_MISMATCH);
 		}
 	}
-
 }

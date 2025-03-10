@@ -47,7 +47,7 @@ public class CommentController {
 		@RequestParam(defaultValue = "10") int size,
 		@RequestParam(defaultValue = "createdAt") String sortBy,
 		@RequestParam(defaultValue = "false") boolean isAsc,
-		@RequestParam(defaultValue = "null") Long commentId) {
+		@RequestParam(required = false) Long commentId) {
 		Page<CommentResponseDto> responseDto = commentService.getComments(postId, page, size, sortBy, isAsc, commentId);
 		return ResponseFactory.ok(responseDto, StatusCode.SUCCESS_GET_COMMENT);
 	}
@@ -64,6 +64,6 @@ public class CommentController {
 	public ResponseEntity<MessageResponseDto> deleteComment(
 		@PathVariable Long postId, @PathVariable Long commentsId, @AuthenticationPrincipal UserDetailsImpl userDetails){
 		commentService.deleteComment(postId, commentsId, userDetails);
-		return ResponseFactory.ok(StatusCode.SUCCESS_UPDATE_COMMENT);
+		return ResponseFactory.ok(StatusCode.SUCCESS_DELETE_COMMENT);
 	}
 }
